@@ -73,33 +73,45 @@ BOOL ExecuteEntry(COFF_t* COFF, char* func, char* args, unsigned long argSize) {
     VOID(*foo)(char* in, UINT32 datalen) = NULL;
 
     if (!func || !COFF->FileBase)
-        _dbg("No entry provided");
+	{
+		_dbg("No entry provided");
+		return FALSE;
+	}
 
     char* stringTable = (char*)(COFF->SymbolTable + COFF->FileHeader->NumberOfSymbols);
-    for (UINT32 counter = 0; counter < COFF->FileHeader->NumberOfSymbols;
-         counter += 1 + COFF->SymbolTable[counter].NumberOfAuxSymbols)
+    for (UINT32 counter = 0; counter < COFF->FileHeader->NumberOfSymbols; counter += 1 + COFF->SymbolTable[counter].NumberOfAuxSymbols)
     {
         char* symName;
         char inlineName[9] = {0};
-        if (COFF->SymbolTable[counter].first.Name[0] != 0) {
+        if (COFF->SymbolTable[counter].first.Name[0] != 0)
+		{
             memcpy(inlineName, COFF->SymbolTable[counter].first.Name, 8);
             symName = inlineName;
-        } else {
+        }
+		else 
+		{
             symName = stringTable + COFF->SymbolTable[counter].first.value[1];
         }
-        if (strcmp(symName, func) == 0) {
+		
+        if (strcmp(symName, func) == 0)
+		{
             UINT16 secNum = COFF->SymbolTable[counter].SectionNumber;
-            if (secNum == 0 || COFF->SectionMapped[secNum - 1] == NULL) {
+            if (secNum == 0 || COFF->SectionMapped[secNum - 1] == NULL)
+			{
                 //_dbg("Entry symbol found but section not loaded (secNum=%d)\n", secNum);
                 continue;
             }
             foo = (void(*)(char*, UINT32))((char*)COFF->SectionMapped[secNum - 1] + COFF->SymbolTable[counter].Value);
-            _dbg("Trying to run: 0x%p\n\n", foo);
         }
     }
 
     if (!foo)
-        _dbg("Couldn't find entry point");
+	{
+		_dbg("Couldn't find entry point");
+		return FALSE;
+	}
+
+	_dbg("Trying to run: 0x%p\n\n", foo);
 
     foo((char*)args, argSize);
     return TRUE;
