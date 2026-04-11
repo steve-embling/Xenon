@@ -27,7 +27,7 @@ typedef struct TRANSFORM
 
 BOOL TransformInit(TRANSFORM* transform, SIZE_T size);
 
-BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile);
+BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile,BOOL isPost);
 
 BOOL TransformReverse(char* recoverable, DWORD recoverableLength, SIZE_T* recoveredDataLen, unsigned char* resProfile, int maxGet);
 

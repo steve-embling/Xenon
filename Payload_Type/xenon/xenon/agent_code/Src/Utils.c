@@ -173,7 +173,7 @@ int base64_encode(const unsigned char *in, unsigned long inlen,
 
 /* Public function for Base64 URL encoding */
 int base64url_encode(const unsigned char *in, unsigned long inlen,
-                     char *out, unsigned long *outlen, bool padding) {
+                     char *out, unsigned long *outlen, BOOL padding) {
     if (padding)
     {
         return s_base64_encode_internal(in, inlen, out, outlen, codes_base64url, pad);

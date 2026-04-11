@@ -37,7 +37,7 @@ int base64_encode(const unsigned char *in,  unsigned long inlen,
                                  char *out, unsigned long *outlen);
 
 int base64url_encode(const unsigned char *in,  unsigned long inlen,
-                                    char *out, unsigned long *outlen);
+                                    char *out, unsigned long *outlen, BOOL padding);
 
 int base64_decode(const char *in,  unsigned long inlen,
                         unsigned char *out, unsigned long *outlen);
