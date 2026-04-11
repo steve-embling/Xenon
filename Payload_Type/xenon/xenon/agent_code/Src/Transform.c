@@ -62,7 +62,7 @@ BOOL TransformInit(TRANSFORM* transform, SIZE_T maxSize)
 }
 
 /* Apply malleable C2 modifications to the web request */
-BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile, bool isPost)
+BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile, BOOL isPost)
 {
 #define MAX_PARAM 1024
 #define MAX_TEMP 4096
